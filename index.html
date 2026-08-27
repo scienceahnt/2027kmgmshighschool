@@ -117,7 +117,10 @@ h2 em{font-style:normal;font-size:11.5px;font-weight:600;color:var(--muted);marg
 .hero .dots4{display:flex;gap:5px;margin-bottom:13px}
 .hero .dots4 i{width:20px;height:9px;border-radius:5px}
 .hero .school{font-size:12.5px;letter-spacing:.02em;color:var(--muted);font-weight:700}
-.hero h1{margin:7px 0 11px;font-size:25px;font-weight:800;letter-spacing:-.03em;line-height:1.3}
+.hero h1{margin:7px 0 11px;font-size:25px;font-weight:800;letter-spacing:-.03em;line-height:1.28}
+/* 제목 각 줄을 통째로 한 줄씩 — 폰마다 줄바꿈이 달라지지 않습니다 */
+.hero h1 span{display:block;white-space:nowrap;word-break:keep-all}
+@media (max-width:360px){ .hero h1{font-size:22px} }
 .hero .who{display:inline-block;font-size:12.5px;font-weight:700;background:var(--soft);
   color:var(--brand);padding:6px 13px;border-radius:999px}
 /* 맨 아래 구글 4색 띠 */
@@ -126,8 +129,12 @@ h2 em{font-style:normal;font-size:11.5px;font-weight:600;color:var(--muted);marg
 
 /* ═══════════════ 응원 멘트 ═══════════════ */
 .quote{margin-top:22px}
-.quote .card{padding:18px 18px 16px;border-left:3px solid var(--accent)}
-.quote p{margin:0;font-size:15.5px;font-weight:600;letter-spacing:-.01em}
+.quote .card{padding:18px 18px 16px 21px;position:relative;overflow:hidden}
+.quote .card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:linear-gradient(to bottom,#4285F4 0 25%,#EA4335 25% 50%,#FBBC04 50% 75%,#34A853 75% 100%)}
+.quote p{margin:0;font-size:15.5px;font-weight:600;letter-spacing:-.01em;
+  line-height:1.65;word-break:keep-all}
+.quote p b{font-weight:800}
 .quote span{display:block;margin-top:7px;font-size:12px;color:var(--muted)}
 
 /* ═══════════════ D-day ═══════════════ */
@@ -432,8 +439,8 @@ footer{margin:30px 0 6px;text-align:center;font-size:12px;color:var(--muted);lin
 
   <section class="quote">
     <div class="card">
-      <p id="quote"></p>
-      <span>✨ 오늘의 한 마디</span>
+      <p id="vision"></p>
+      <span id="visionLabel"></span>
     </div>
   </section>
 
@@ -505,8 +512,25 @@ var CFG  = {
 
   /* ── 기본 정보 ─────────────────────────────────────────── */
   SCHOOL : '경민여자중학교',
-  TITLE  : '2026학년도 3학년 고입 진학 안내',
   TEACHER: '3학년 담임교사 일동',
+
+  /* ★ 제목 — 세로줄 | 이 있는 자리에서 줄이 바뀝니다.
+   *
+   *  핸드폰 화면 크기에 따라 줄바꿈이 제각각이 되는 걸 막기 위해
+   *  줄 나눌 자리를 직접 정해 둡니다. 어느 폰에서든 똑같이 두 줄로 보입니다.
+   *  한 줄로 두고 싶으면 | 를 지우면 됩니다.
+   */
+  TITLE  : '2026학년도 3학년|고입 진학 안내',
+
+  /* ★ 학교 비전 — 화면 맨 위 카드에 표시됩니다.
+   *
+   *  VISION_WORDS 에 적은 낱말은 구글 4색(파랑·초록·노랑·빨강)으로 강조됩니다.
+   *  적은 순서대로 색이 정해지고, 4개가 넘으면 다시 파랑부터 돌아갑니다.
+   *  비워 두면 이 카드가 화면에서 사라집니다.
+   */
+  VISION      : '감사 속에서 함께 성장하며, 무한한 미래를 향해 비상하는 우리',
+  VISION_WORDS: ['감사', '성장', '미래', '비상'],
+  VISION_LABEL: '우리 학교 비전',
 
   /* ★ 목록 API 주소 (Apps Script 웹앱 배포 후 여기에 붙여넣으세요)
    *
@@ -1247,7 +1271,13 @@ if (!CFG.SCHOOL) {
 /* 머리말·꼬리말 채우기 */
 
 document.getElementById('hSchool').textContent = CFG.SCHOOL;
-document.getElementById('hTitle').textContent  = CFG.TITLE;
+/* 제목은 '|' 자리에서 줄을 나눕니다. 폰 크기와 상관없이 줄바꿈이 같아집니다. */
+document.getElementById('hTitle').innerHTML =
+  String(CFG.TITLE || '').split('|')
+    .map(function(line){ return '<span>' + esc(line.trim()) + '</span>'; })
+    .join('');
+document.title = CFG.SCHOOL + ' ' + String(CFG.TITLE || '').replace(/\|/g, ' ');
+
 document.getElementById('hWho').textContent    = CFG.TEACHER;
 document.getElementById('fWho').textContent    = CFG.SCHOOL + ' · ' + CFG.TEACHER;
 
@@ -1638,23 +1668,28 @@ document.getElementById('vsel').addEventListener('click', function(e){
 
 renderSched();
 
-/* ═══════════════ 응원 멘트 (날짜마다 바뀜) ═══════════════ */
-var QUOTES = [
-  '지금 흔들리는 건, 뿌리가 깊어지고 있다는 뜻이야.',
-  '정해진 정답은 없어. 네가 걸어가면 그게 길이 돼.',
-  '조급한 마음은 잠깐 접어두고, 오늘 할 수 있는 하나만 하자.',
-  '어떤 학교를 가느냐보다, 거기서 어떤 사람이 되느냐가 더 중요해.',
-  '모르는 건 부끄러운 게 아니야. 묻지 않는 게 손해일 뿐.',
-  '비교는 어제의 너하고만. 그거면 충분해.',
-  '고민이 길어진다는 건 그만큼 진지하다는 뜻이야. 잘하고 있어.',
-  '오늘의 선택이 마음에 걸리면, 내일 다시 이야기해도 괜찮아.',
-  '완벽한 결정보다 함께 내리는 결정이 더 든든해. 혼자 끙끙 앓지 말자.',
-  '지금 준비하는 이 시간은, 결과와 상관없이 온전히 네 것으로 남아.',
-  '천천히 가도 괜찮아. 멈추지만 않으면 돼.',
-  '너의 가능성은 성적표 한 장보다 훨씬 넓어.'
-];
-document.getElementById('quote').textContent =
-  QUOTES[Math.floor(Date.now() / 864e5) % QUOTES.length];
+/* ═══════════════ 학교 비전 ═══════════════
+ * VISION_WORDS 에 적힌 낱말을 구글 4색으로 강조해서 보여줍니다.
+ */
+(function(){
+  var sec = document.querySelector('.quote');
+
+  if (!CFG.VISION) { sec.style.display = 'none'; return; }
+
+  var COLORS = ['#1a73e8', '#188038', '#e37400', '#d93025'];   // 파랑·초록·노랑·빨강
+  var html   = esc(CFG.VISION);
+
+  (CFG.VISION_WORDS || []).forEach(function(w, i){
+    if (!w) return;
+    var c = COLORS[i % COLORS.length];
+    // split/join 이라 정규식 특수문자를 신경 쓸 필요가 없습니다
+    html = html.split(esc(w)).join('<b style="color:' + c + '">' + esc(w) + '</b>');
+  });
+
+  document.getElementById('vision').innerHTML = html;
+  document.getElementById('visionLabel').textContent =
+    '🏫 ' + (CFG.VISION_LABEL || '우리 학교 비전');
+})();
 
 /* ═══════════════ 자주 묻는 질문 ═══════════════
  * 배포 전에 한 번 읽어보고 올해 기준에 맞게 고쳐 주세요.
