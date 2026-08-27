@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<!--
+  경민여자중학교 2026학년도 3학년 고입 진학 안내 — 화면
+  버전 v1.4 · 2026-08-25 갱신
+  짝이 되는 파일: Code.gs — 같은 버전이어야 합니다
+  ※ Apps Script에서 파일 이름은 반드시 'index' 여야 합니다.
+-->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>경민여자중학교 2027학년도 고입 진학 안내</title>
+<meta name="description" content="공문 · 전형일정 · 고등학교 찾기 · 1:1 문의를 한 곳에서">
+
+<!-- ─────────── 카톡·페이스북 미리보기 ───────────
+     ★고칠곳 : 아래 두 줄의 주소를 이 사이트가 올라간 실제 주소로 바꾸세요.
+       예) https://아이디.github.io/kmg-gohip/thumbnail.png
+           https://아이디.github.io/kmg-gohip/
+     ※ 반드시 https:// 로 시작하는 '전체 주소' 여야 합니다. -->
+<meta property="og:image" content="https://여기를바꾸세요/thumbnail.png">
+<meta property="og:url"   content="https://여기를바꾸세요/">
+
+<meta property="og:type"        content="website">
+<meta property="og:site_name"   content="경민여자중학교">
+<meta property="og:title"       content="2027학년도 고입 진학 안내">
+<meta property="og:description" content="공문 · 전형일정 · 고등학교 찾기 · 1:1 문의를 한 곳에서">
+<meta property="og:image:width"  content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="thumbnail.png">
+
+<!-- 글꼴 — 기기마다 글꼴이 달라 보이지 않도록 구글 본고딕(Noto Sans KR)을 불러옵니다.
+     네트워크가 막혀 못 불러와도 아래 style 의 대체 글꼴로 정상 표시됩니다. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
+
+<style>
+/* ═══════════════ 색상 ═══════════════ */
+/* 구글 팔레트 기준
+   Blue #1a73e8 · Red #d93025 · Yellow #f9ab00 · Green #188038 · Purple #9334e6
+   회색은 Google Grey 계열 (#202124 / #5f6368 / #dadce0 / #f8f9fa) */
+:root{
+  --bg:#ffffff; --card:#ffffff; --ink:#202124; --muted:#5f6368; --line:#dadce0;
+  --brand:#1a73e8; --brand-2:#4285F4; --soft:#e8f0fe; --accent:#f9ab00; --new:#d93025;
+  --live:#188038; --live-bg:#e6f4ea;
+  --shadow:0 1px 2px rgba(60,64,67,.08), 0 4px 14px rgba(60,64,67,.08);
+}
+@media (prefers-color-scheme:dark){
+  :root{ --bg:#131316; --card:#1c1d21; --ink:#e8eaed; --muted:#9aa0a6; --line:#33343a;
+         --brand:#8ab4f8; --brand-2:#aecbfa; --soft:#1b2a45; --accent:#fdd663; --new:#f28b82;
+         --live:#81c995; --live-bg:#12291a;
+         --shadow:0 1px 2px rgba(0,0,0,.5), 0 4px 16px rgba(0,0,0,.35); }
+}
+
+/* ── 섹션별 구분 색 ──
+   각 섹션이 자기 색(--sec)을 갖습니다. 제목·아이콘·탭·배지뿐 아니라
+   카드 배경(--sec-card)과 테두리(--sec-line)까지 물들여 경계가 한눈에 보입니다. */
+section{ --sec:var(--brand); --sec-bg:var(--soft); --sec-line:var(--line); --sec-card:var(--card); }
+section .card{ background:var(--sec-card); border-color:var(--sec-line) }
+section .tab { background:var(--sec-card); border-color:var(--sec-line) }
+.s-sched{ --sec:#1a73e8; --sec-bg:#e8f0fe; --sec-line:#d2e3fc; --sec-card:#ffffff; }   /* 전형일정 — 구글 파랑 */
+.s-find { --sec:#188038; --sec-bg:#e6f4ea; --sec-line:#ceead6; --sec-card:#ffffff; }   /* 학교 찾기 — 구글 초록 */
+.s-docs { --sec:#b06000; --sec-bg:#fef7e0; --sec-line:#feefc3; --sec-card:#ffffff; }   /* 공문 — 구글 노랑 */
+.s-ai   { --sec:#1a73e8; --sec-bg:#e8f0fe; --sec-line:#d2e3fc; --sec-card:#ffffff; }   /* AI — 4색 */
+.s-links{ --sec:#c5221f; --sec-bg:#fce8e6; --sec-line:#fad2cf; --sec-card:#ffffff; }   /* 유용한 사이트 — 구글 빨강 */
+.s-faq  { --sec:#8430ce; --sec-bg:#f3e8fd; --sec-line:#e9d2fd; --sec-card:#ffffff; }   /* FAQ — 구글 보라 */
+@media (prefers-color-scheme:dark){
+  .s-sched{ --sec:#8ab4f8; --sec-bg:#1b2a45; --sec-line:#2b3c5c; --sec-card:#1c1d21; }
+  .s-find { --sec:#81c995; --sec-bg:#13291b; --sec-line:#1f3d29; --sec-card:#1c1d21; }
+  .s-docs { --sec:#fdd663; --sec-bg:#2e250f; --sec-line:#413612; --sec-card:#1c1d21; }
+  .s-ai   { --sec:#8ab4f8; --sec-bg:#1b2a45; --sec-line:#2b3c5c; --sec-card:#1c1d21; }
+  .s-links{ --sec:#f28b82; --sec-bg:#2d1614; --sec-line:#42201d; --sec-card:#1c1d21; }
+  .s-faq  { --sec:#d7aefb; --sec-bg:#241531; --sec-line:#372046; --sec-card:#1c1d21; }
+}
+
+/* ═══════════════ 기본 ═══════════════ */
+/* 글꼴은 한 곳에서만 정합니다. 한글과 숫자가 같은 글꼴로 나오도록
+   한글을 가진 글꼴만 순서대로 적었습니다. (Roboto 등이 끼면 숫자만 달라 보입니다) */
+:root{
+  --font:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic','맑은 고딕',sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+/* 버튼·입력창은 글꼴을 물려받지 않으므로 따로 지정합니다 */
+body,button,input,select,textarea,summary{font-family:var(--font)}
+body{margin:0;background:var(--bg);color:var(--ink);
+  line-height:1.55;-webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;padding-bottom:132px}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px}
+a{color:inherit;text-decoration:none}
+/* 섹션 위쪽에서 그 섹션 색이 은은하게 번졌다가 사라집니다.
+   배경 전체를 갈아끼우지 않으므로 스크롤할 때 색이 '흐르듯' 이어집니다. */
+section{margin-top:30px;
+  background:radial-gradient(120% 190px at 50% 0, var(--sec-bg) 0%, transparent 72%);
+  background-repeat:no-repeat}
+
+/* 맨 위 구글 4색 진행바 — 스크롤한 만큼 차오릅니다 */
+.prog{position:fixed;top:0;left:0;right:0;height:3px;z-index:60;pointer-events:none}
+.prog i{display:block;height:100%;width:0;
+  background:linear-gradient(to right,#4285F4 0%,#EA4335 34%,#FBBC04 67%,#34A853 100%);
+  background-size:100vw 100%;background-repeat:no-repeat}
+h2{display:flex;align-items:center;gap:8px;margin:0 0 12px;
+  font-size:15px;font-weight:800;color:var(--sec);letter-spacing:-.01em}
+h2 i{font-style:normal;flex:0 0 auto;width:28px;height:28px;border-radius:9px;
+  background:var(--sec-bg);display:flex;align-items:center;justify-content:center;font-size:15px}
+h2 em{font-style:normal;font-size:11.5px;font-weight:600;color:var(--muted);margin-left:auto}
+.card{background:var(--card);border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow)}
+.tabs{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;padding:8px 15px;border-radius:999px;border:1px solid var(--line);
+  background:var(--card);font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer}
+.tab.on{background:var(--sec);border-color:var(--sec);color:#fff}
+@media (prefers-color-scheme:dark){ .tab.on{color:#0f1218} }
+
+/* ═══════════════ 헤더 ═══════════════ */
+.hero{background:var(--card);color:var(--ink);padding:26px 0 24px;
+  border-bottom:1px solid var(--line);position:relative}
+.hero .dots4{display:flex;gap:5px;margin-bottom:13px}
+.hero .dots4 i{width:20px;height:9px;border-radius:5px}
+.hero .school{font-size:12.5px;letter-spacing:.02em;color:var(--muted);font-weight:700}
+.hero h1{margin:7px 0 11px;font-size:25px;font-weight:800;letter-spacing:-.03em;line-height:1.3}
+.hero .who{display:inline-block;font-size:12.5px;font-weight:700;background:var(--soft);
+  color:var(--brand);padding:6px 13px;border-radius:999px}
+/* 맨 아래 구글 4색 띠 */
+.hero::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:3px;
+  background:linear-gradient(to right,#4285F4 0 25%,#EA4335 25% 50%,#FBBC04 50% 75%,#34A853 75% 100%)}
+
+/* ═══════════════ 응원 멘트 ═══════════════ */
+.quote{margin-top:22px}
+.quote .card{padding:18px 18px 16px;border-left:3px solid var(--accent)}
+.quote p{margin:0;font-size:15.5px;font-weight:600;letter-spacing:-.01em}
+.quote span{display:block;margin-top:7px;font-size:12px;color:var(--muted)}
+
+/* ═══════════════ D-day ═══════════════ */
+.dday{display:grid;gap:9px;margin-bottom:14px}
+.dday .row{display:flex;align-items:center;gap:13px;padding:14px 16px}
+.dday .badge{flex:0 0 auto;min-width:64px;text-align:center;padding:8px 6px;border-radius:11px;
+  background:var(--sec-bg);color:var(--sec);font-weight:800;font-size:16px;
+  letter-spacing:-.02em;line-height:1.25}
+.dday .badge.tbd{font-size:12px;font-weight:700;color:var(--muted);background:var(--soft);letter-spacing:0}
+.dday .badge.on{background:var(--live-bg);color:var(--live);font-size:13px}
+.dday .t{font-size:14.5px;font-weight:600}
+.dday .d{font-size:12px;color:var(--muted);margin-top:2px}
+
+/* ═══════════════ 일정표 ═══════════════ */
+.sched .tabs{margin-bottom:10px}
+.sched table{width:100%;border-collapse:collapse}
+.sched td{padding:11px 14px;border-top:1px solid var(--line);font-size:13px}
+.sched tr:first-child td{border-top:0}
+.sched td.k{color:var(--muted);font-weight:600;white-space:nowrap}
+.sched td.v{text-align:right;font-weight:600;letter-spacing:-.01em}
+.sched tr.hd td{background:var(--sec-bg);color:var(--sec);font-weight:800;font-size:11.5px;
+  letter-spacing:.03em;padding:8px 14px}
+.sched tr.past{opacity:.4}
+.sched tr.now td.v{color:var(--live)}
+.live{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:5px;
+  background:var(--live-bg);color:var(--live);font-size:10px;font-weight:800;vertical-align:1px}
+.note{margin-top:9px;font-size:11.5px;color:var(--muted);line-height:1.6;padding:0 3px}
+
+/* ═══════════════ 달력 (월별 전형일정) ═══════════════ */
+.vsel{margin-bottom:12px}
+
+/* 달마다 카드 하나 — 8월부터 쭉 이어집니다 */
+.mo{margin-bottom:10px;overflow:hidden}
+.mo>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;
+  padding:13px 15px;font-size:15px;font-weight:800;letter-spacing:-.01em}
+.mo>summary::-webkit-details-marker{display:none}
+.mo>summary .cnt{margin-left:auto;padding:3px 10px;border-radius:999px;
+  background:var(--sec-bg);color:var(--sec);font-size:11px;font-weight:800}
+.mo>summary .cnt.zero{background:var(--line);color:var(--muted)}
+.mo>summary .cv{flex:0 0 auto;color:var(--muted);font-size:13px;transition:transform .18s ease}
+.mo[open]>summary .cv{transform:rotate(90deg)}
+.mo[open]>summary{border-bottom:1px solid var(--sec-line)}
+.mo .now{padding:2px 8px;border-radius:999px;background:var(--live-bg);color:var(--live);
+  font-size:10px;font-weight:800}
+.cal{padding:12px 14px 10px}
+/* 요일 머리글 */
+.cal .dowrow{display:grid;grid-template-columns:repeat(7,1fr);
+  border-bottom:1px solid var(--sec-line);margin-bottom:4px}
+.cal .dowrow span{text-align:center;font-size:11px;font-weight:700;color:var(--muted);padding:2px 0 7px}
+.cal .dowrow span.sun{color:#EA4335}
+.cal .dowrow span.sat{color:#4285F4}
+
+/* 한 주 = 날짜줄 + 막대 영역 */
+.cal .wk{margin-bottom:7px}
+.cal .dnums{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:3px}
+.cal .dnums span{text-align:center;font-size:12.5px;font-weight:600;padding:2px 0}
+.cal .dnums span.pad{visibility:hidden}
+.cal .dnums span.sun{color:#EA4335}
+.cal .dnums b{display:inline-block;min-width:21px;line-height:21px;border-radius:50%;
+  background:var(--sec);color:#fff;font-weight:800}
+@media (prefers-color-scheme:dark){ .cal .dnums b{color:#0f1218} }
+
+/* 기간을 가로로 잇는 막대 */
+.cal .bars{position:relative}
+.cal .bar{position:absolute;height:17px;line-height:17px;border-radius:3px;
+  font-size:10px;font-weight:800;color:#fff;padding:0 5px;
+  overflow:hidden;white-space:nowrap;text-overflow:ellipsis;letter-spacing:-.02em}
+.cal .bar.s{border-top-left-radius:9px;border-bottom-left-radius:9px;margin-left:2px}
+.cal .bar.e{border-top-right-radius:9px;border-bottom-right-radius:9px;margin-right:2px}
+.cal .bar.past{opacity:.4}
+.cal .bar.cont{padding-left:3px}
+.legend{display:flex;flex-wrap:wrap;gap:5px 12px;margin:10px 2px 4px;
+  font-size:10.5px;color:var(--muted);font-weight:600}
+.legend i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px}
+/* 달력 맨 위 안내 */
+.calhint{margin:0 2px 11px;padding:11px 13px;border-radius:12px;
+  background:var(--sec-bg);color:var(--sec);font-size:12.5px;font-weight:600;line-height:1.6}
+.calhint b{font-weight:800}
+
+/* 학교 종류별 카드 (접기/펴기) */
+.gcard{margin-bottom:10px;overflow:hidden}
+.gcard>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:9px;
+  padding:13px 15px;font-size:14.5px;font-weight:800;letter-spacing:-.01em}
+.gcard>summary::-webkit-details-marker{display:none}
+.gcard[open]>summary{border-bottom:1px solid var(--sec-line)}
+.gcard .gdot{flex:0 0 auto;width:9px;height:9px;border-radius:50%;background:var(--gc)}
+.gcard .gn{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gcard .cnt{margin-left:auto;flex:0 0 auto;padding:3px 10px;border-radius:999px;
+  background:var(--sec-bg);color:var(--sec);font-size:11px;font-weight:800}
+.gcard .cnt.zero{background:var(--line);color:var(--muted)}
+.gcard .now{margin-left:auto;flex:0 0 auto;padding:3px 10px;border-radius:999px;
+  background:var(--live-bg);color:var(--live);font-size:11px;font-weight:800}
+.gcard .steps{padding:2px 15px 14px}
+.gtip{margin:12px 0 2px;padding:10px 12px;border-radius:10px;background:var(--sec-bg);
+  color:var(--sec);font-size:12px;font-weight:600;line-height:1.6}
+.cv{flex:0 0 auto;color:var(--muted);font-size:12px;transition:transform .18s ease}
+details[open]>summary .cv{transform:rotate(90deg)}
+
+/* 지난 달 · 끝난 전형 — 평소엔 접혀 있습니다 */
+.pastwrap{margin-bottom:11px}
+.pastwrap>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;
+  padding:11px 14px;border-radius:12px;border:1px dashed var(--sec-line);
+  background:var(--sec-card);color:var(--muted);font-size:12.5px;font-weight:700}
+.pastwrap>summary::-webkit-details-marker{display:none}
+.pastwrap[open]>summary{margin-bottom:11px}
+.pastwrap[open]{padding-bottom:2px}
+
+/* ═══════════════ 표 = 단계별 안내 ═══════════════ */
+.steps{padding:6px 15px 14px}
+.grp{display:flex;align-items:center;gap:8px;margin:16px -15px 4px;padding:9px 15px;
+  background:var(--sec-bg);color:var(--sec);font-size:12.5px;font-weight:800;letter-spacing:-.01em}
+.grp:first-child{margin-top:0}
+.step{position:relative;display:flex;gap:12px;padding:12px 0 12px 2px}
+.step+.step{border-top:1px solid var(--sec-line)}
+/* 단계 번호를 잇는 세로선 */
+.step::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:2px;
+  background:var(--sec-line)}
+.step:first-of-type::before{top:50%}
+.step:last-of-type::before{bottom:50%}
+.step.solo::before{display:none}
+.num{position:relative;z-index:1;flex:0 0 auto;width:28px;height:28px;border-radius:50%;
+  background:var(--sec-card);border:2px solid var(--sec-line);color:var(--muted);
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;margin-top:1px}
+.step.key .num{background:var(--sec);border-color:var(--sec);color:#fff}
+.step.now .num{background:var(--live);border-color:var(--live);color:#fff}
+@media (prefers-color-scheme:dark){
+  .step.key .num,.step.now .num{color:#0f1218}
+}
+.step .bd{min-width:0;flex:1}
+.step .t{font-size:14.5px;font-weight:700;letter-spacing:-.01em}
+.step.key .t{font-weight:800}
+.step .w{margin-top:3px;font-size:13px;font-weight:700;color:var(--sec)}
+.step .ex{margin-top:5px;font-size:12px;color:var(--muted);line-height:1.6}
+.step.past{opacity:.42}
+.step.past .w{color:var(--muted)}
+.step .done{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:5px;
+  background:var(--line);color:var(--muted);font-size:10px;font-weight:800;vertical-align:2px}
+.step .dd{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:5px;
+  background:var(--sec-bg);color:var(--sec);font-size:10px;font-weight:800;vertical-align:2px}
+
+.mlist{display:grid;gap:0;margin-top:12px;border-top:1px solid var(--sec-line)}
+.mlist .ev{display:flex;align-items:flex-start;gap:9px;padding:11px 2px}
+.mlist .ev+.ev{border-top:1px solid var(--sec-line)}
+.mlist .ev.past{opacity:.45}
+.mlist .dot{flex:0 0 auto;width:8px;height:8px;border-radius:50%;margin-top:6px}
+.mlist .n{font-size:13.5px;font-weight:700}
+.mlist .w{font-size:11.5px;color:var(--muted);margin-top:1px}
+.mlist .none{padding:22px;text-align:center;color:var(--muted);font-size:13px}
+
+/* ═══════════════ 검색 ═══════════════ */
+.tools{position:sticky;top:0;z-index:20;background:var(--bg);padding:8px 16px 10px;margin:0 -16px}
+.search{margin-top:9px;position:relative}
+.search input{width:100%;padding:11px 14px 11px 38px;border:1px solid var(--line);border-radius:12px;
+  background:var(--card);color:var(--ink);font-size:15px;font-family:inherit;outline:none}
+.search input:focus{border-color:var(--sec)}
+.search svg{position:absolute;left:13px;top:12px;opacity:.45}
+
+/* ═══════════════ 공문 카드 ═══════════════ */
+.list{display:grid;gap:9px;margin-top:11px}
+.doc{display:flex;align-items:flex-start;gap:12px;padding:14px 15px}
+.doc .ico{flex:0 0 auto;width:40px;height:40px;border-radius:10px;background:var(--sec-bg);
+  display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:800;color:var(--sec)}
+.doc .body{min-width:0;flex:1}
+.doc .nm{font-size:14.5px;font-weight:600;letter-spacing:-.01em;word-break:break-all}
+.doc .meta{margin-top:4px;font-size:12px;color:var(--muted)}
+.new{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:5px;background:var(--new);
+  color:#fff;font-size:10px;font-weight:800;vertical-align:2px}
+.arrow{flex:0 0 auto;align-self:center;opacity:.3}
+.empty{padding:34px 20px;text-align:center;color:var(--muted);font-size:14px}
+.empty .em{font-size:26px;display:block;margin-bottom:8px}
+.empty b{display:block;color:var(--ink);font-size:15px;margin-bottom:5px}
+/* 더 보기 · 접기 버튼 */
+.morebtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;
+  margin-top:2px;padding:13px;border-radius:13px;cursor:pointer;
+  border:1px solid var(--sec-line);background:var(--sec-bg);color:var(--sec);
+  font-size:13.5px;font-weight:800;letter-spacing:-.01em}
+.morebtn .of{padding:2px 8px;border-radius:999px;background:var(--sec-card);
+  color:var(--muted);font-size:11px;font-weight:700}
+.morebtn.fold{background:var(--sec-card);color:var(--muted);border-style:dashed}
+.morebtn:active{transform:scale(.985)}
+
+/* ═══════════════ 고등학교 찾기 ═══════════════ */
+/* 유형 묶음별 색 — 결과 카드에 그대로 입혀집니다 */
+.g-일반  { --tc:#1a73e8; --tbg:#e8f0fe; }
+.g-특성화{ --tc:#e8710a; --tbg:#fef0e3; }
+.g-특목  { --tc:#8430ce; --tbg:#f3e8fd; }
+.g-종합  { --tc:#0f766e; --tbg:#e2f4f1; }
+@media (prefers-color-scheme:dark){
+  .g-일반  { --tc:#8ab4f8; --tbg:#1b2a45; }
+  .g-특성화{ --tc:#f5b071; --tbg:#3a2510; }
+  .g-특목  { --tc:#cba6f7; --tbg:#2a1b3d; }
+  .g-종합  { --tc:#5ecfbf; --tbg:#0e2b28; }
+}
+.find .search{margin-top:0}
+.fhint{margin:9px 3px 0;font-size:11.5px;color:var(--muted);line-height:1.6}
+.fres{display:grid;gap:9px;margin-top:11px}
+.sch{padding:14px 15px;border-left:4px solid var(--tc)}
+.sch .top{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.sch .nm{font-size:15.5px;font-weight:800;letter-spacing:-.01em}
+.sch .rg{font-size:12px;color:var(--muted);font-weight:600}
+.sch .ty{display:inline-block;margin-top:9px;padding:5px 12px;border-radius:999px;
+  background:var(--tbg);color:var(--tc);font-size:13px;font-weight:800}
+.sch .wh{display:inline-block;margin:9px 0 0 6px;padding:5px 10px;border-radius:999px;
+  border:1px solid var(--sec-line);font-size:11.5px;font-weight:700;color:var(--muted)}
+.sch .ds{margin-top:9px;font-size:12.5px;color:var(--muted);line-height:1.6}
+.sch .mt{margin-top:8px;font-size:11.5px;color:var(--muted)}
+.sch .jump{display:inline-block;margin-top:10px;padding:7px 13px;border-radius:9px;
+  background:var(--tbg);color:var(--tc);font-size:12px;font-weight:800;cursor:pointer;border:0;font-family:inherit}
+.fmore{padding:13px;text-align:center;color:var(--muted);font-size:12.5px}
+.fnone{padding:26px 20px;text-align:center;font-size:13.5px;color:var(--muted);line-height:1.7}
+.fnone b{display:block;color:var(--ink);font-size:15px;margin-bottom:7px}
+.fnone .go{display:inline-block;margin-top:12px;padding:9px 16px;border-radius:10px;
+  background:#FEE500;color:#191600;font-size:13px;font-weight:800}
+.fsum{margin-top:10px;font-size:12px;color:var(--muted);font-weight:600;padding:0 3px}
+
+/* ═══════════════ AI 문의 카드 — 구글 파랑으로 꽉 채움 ═══════════════ */
+.aiwrap{border-radius:17px;overflow:hidden;position:relative;
+  box-shadow:0 2px 6px rgba(26,115,232,.24), 0 10px 24px rgba(26,115,232,.18);
+  background:linear-gradient(135deg,#4285F4 0%,#1a73e8 55%,#1552b5 100%)}
+/* 아래쪽에 구글 4색 띠 한 줄 */
+.aiwrap::after{content:'';position:absolute;left:0;right:0;bottom:0;height:3px;
+  background:linear-gradient(to right,#4285F4 0 25%,#EA4335 25% 50%,#FBBC04 50% 75%,#34A853 75% 100%)}
+.ai{display:flex;align-items:center;gap:14px;padding:17px 16px 19px;color:#fff}
+.ai .bot{flex:0 0 auto;width:46px;height:46px;border-radius:13px;background:#fff;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 6px rgba(0,0,0,.16)}
+.ai .t{font-size:15.5px;font-weight:800;color:#fff;letter-spacing:-.01em}
+.ai .d{margin-top:4px;font-size:12.5px;color:rgba(255,255,255,.88);line-height:1.55}
+.ai .by{margin-top:8px;display:inline-block;padding:3px 9px;border-radius:999px;
+  background:rgba(255,255,255,.16);font-size:10.5px;font-weight:800;
+  letter-spacing:.02em;color:#fff}
+.ai .by i{font-style:normal}
+.ai .go{flex:0 0 auto;color:#fff;opacity:.9}
+
+/* ═══════════════ 유용한 사이트 ═══════════════ */
+.links{display:grid;gap:9px}
+.links .row{display:flex;align-items:center;gap:12px;padding:14px 15px}
+.links .n{font-size:14.5px;font-weight:600}
+.links .d{font-size:12px;color:var(--muted);margin-top:2px}
+
+/* ═══════════════ FAQ ═══════════════ */
+.faq details{padding:0 15px;overflow:hidden}
+.faq details+details{margin-top:9px}
+.faq summary{padding:14px 0;font-size:14.5px;font-weight:600;cursor:pointer;list-style:none;
+  display:flex;justify-content:space-between;align-items:center;gap:10px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';color:var(--sec);font-size:19px;font-weight:600;flex:0 0 auto}
+.faq details[open] summary{color:var(--sec)}
+.faq details[open] summary::after{content:'\2212'}
+.faq .a{padding:12px 0 15px;font-size:13.5px;color:var(--muted);line-height:1.65;
+  border-top:1px solid var(--line)}
+
+/* ═══════════════ 푸터 · 고정 버튼 ═══════════════ */
+footer{margin:30px 0 6px;text-align:center;font-size:12px;color:var(--muted);line-height:1.8}
+.refresh{display:inline-block;margin-top:10px;padding:7px 14px;border:1px solid var(--line);
+  border-radius:999px;background:var(--card);color:var(--muted);font-size:12px;font-weight:600;cursor:pointer}
+.cta{position:fixed;left:0;right:0;bottom:0;z-index:30;
+  padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+  background:linear-gradient(to top,var(--bg) 55%,transparent)}
+.cta .btn{display:flex;align-items:center;justify-content:center;gap:8px;max-width:528px;margin:0 auto;
+  padding:15px;border-radius:15px;background:#FEE500;color:#191600;font-size:15.5px;font-weight:800;
+  box-shadow:0 6px 22px rgba(0,0,0,.14)}
+.cta .off{background:var(--card);color:var(--muted);border:1px solid var(--line);font-weight:600}
+.cta .hint{max-width:528px;margin:0 auto 8px;padding:5px 13px;text-align:center;
+  font-size:11.5px;line-height:1.5;color:var(--muted);background:var(--card);
+  border:1px solid var(--line);border-radius:999px;box-shadow:var(--shadow)}
+
+/* ═══════════════ 전환 효과 ═══════════════ */
+@keyframes fadeUp{ from{opacity:0;transform:translateY(7px)} to{opacity:1;transform:none} }
+@keyframes fadeIn{ from{opacity:0} to{opacity:1} }
+.tab{transition:background .18s ease,color .18s ease,border-color .18s ease,transform .1s ease}
+.tab:active{transform:scale(.95)}
+.list > *{animation:fadeUp .34s ease both}
+#stable,#cal,.mlist > *{animation:fadeUp .3s ease both}
+.dday .row{animation:fadeUp .42s ease both}
+.links > *{animation:fadeUp .34s ease both}
+.aiwrap{animation:fadeUp .34s ease both}
+.faq .a{animation:fadeIn .28s ease both}
+.doc,.links .row,.cta .btn,.ai{transition:transform .12s ease,filter .15s ease}
+.doc:active,.links .row:active,.ai:active{transform:scale(.985)}
+.cta .btn:active{transform:scale(.975);filter:brightness(.96)}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important}
+}
+</style>
+</head>
+<body>
+
+<div class="prog"><i id="progbar"></i></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="dots4"><i style="background:#4285F4"></i><i style="background:#EA4335"></i>
+      <i style="background:#FBBC04"></i><i style="background:#34A853"></i></div>
+    <div class="school" id="hSchool"></div>
+    <h1 id="hTitle"></h1>
+    <span class="who" id="hWho"></span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="quote">
+    <div class="card">
+      <p id="quote"></p>
+      <span>✨ 오늘의 한 마디</span>
+    </div>
+  </section>
+
+  <section class="sched s-sched">
+    <h2><i>📅</i>전형일정<em>2027학년도</em></h2>
+    <div class="dday" id="dday"></div>
+    <div class="tabs vsel" id="vsel"></div>
+    <div id="cal"></div>
+    <div id="stable"></div>
+    <div class="note" id="snote"></div>
+  </section>
+
+  <section class="find s-find">
+    <h2><i>🏫</i>고등학교 찾기<em id="fcnt"></em></h2>
+    <div class="card" style="padding:14px 15px">
+      <div class="search">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input id="fq" type="search" placeholder="학교 이름을 입력하세요 (예: 경민고)" autocomplete="off">
+      </div>
+      <div class="fhint">궁금한 고등학교가 일반고인지 특성화고인지 바로 확인할 수 있어요.
+        지역 이름(예: 의정부)으로도 찾을 수 있습니다.</div>
+    </div>
+    <div class="fres" id="fres"></div>
+    <div class="note" id="fnote"></div>
+  </section>
+
+  <section class="s-docs">
+    <h2><i>📂</i>고입 공문 · 안내자료<em id="dcount"></em></h2>
+    <div class="tools">
+      <div class="tabs" id="tabs"></div>
+      <div class="search">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="자료 이름으로 검색" autocomplete="off">
+      </div>
+    </div>
+    <div class="list" id="list"></div>
+  </section>
+
+  <section class="s-ai" id="aiSection" style="display:none">
+    <h2><i>✨</i>AI 도우미<em>Google NotebookLM</em></h2>
+    <div id="ai"></div>
+  </section>
+
+  <section class="s-links">
+    <h2><i>🔗</i>유용한 사이트</h2>
+    <div class="links" id="links"></div>
+  </section>
+
+  <section class="faq s-faq">
+    <h2><i>💡</i>자주 묻는 질문</h2>
+    <div id="faq"></div>
+  </section>
+
+  <footer>
+    <span id="fWho"></span><br>
+    자료는 선생님이 올리는 즉시 이 페이지에 표시됩니다.
+    <br><span class="refresh" id="rf">목록 새로고침</span>
+  </footer>
+</div>
+
+<div class="cta" id="cta"></div>
+
+<script>
+/* ── 설정값 ──
+   아래 두 줄은 빌드할 때 Code.gs 의 내용으로 자동으로 채워집니다. */
+var CFG  = /*{{CFG}}*/{};
+var SCH  = /*{{SCH}}*/{};
+
+/* 공문 목록은 화면이 뜬 뒤에 따로 받아옵니다. 그래서 화면이 먼저 빨리 뜹니다. */
+var DATA = { ok: true, items: [], cats: [], loading: true };
+
+/* 머리말·꼬리말 채우기 */
+document.getElementById('hSchool').textContent = CFG.SCHOOL;
+document.getElementById('hTitle').textContent  = CFG.TITLE;
+document.getElementById('hWho').textContent    = CFG.TEACHER;
+document.getElementById('fWho').textContent    = CFG.SCHOOL + ' · ' + CFG.TEACHER;
+
+var cat = '전체', kw = '';
+
+/* 공문 목록을 몇 건씩 보여줄지 — 5건씩 끊어서 '더 보기' 로 늘립니다 */
+var DOC_STEP = 5;
+var shown    = DOC_STEP;
+var sView = 'cal';                       // 전형일정 보기: 'cal' 달력 / 'table' 표
+var _n = new Date(), calY = _n.getFullYear(), calM = _n.getMonth();   // 달력이 보여주는 연·월
+
+/* ═══════════════ 날짜 도우미 ═══════════════ */
+var DOW = ['일','월','화','수','목','금','토'];
+
+function p2(n){ return n < 10 ? '0' + n : '' + n; }
+function pd(s){ var a = s.split('-'); return new Date(+a[0], +a[1] - 1, +a[2]); }
+function today(){ var n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate()); }
+function f1(d){ return d.getFullYear() + '.' + p2(d.getMonth() + 1) + '.' + p2(d.getDate()) + '(' + DOW[d.getDay()] + ')'; }
+
+/** 기간을 '2026.12.04(금) ~ 10(목)' 형태로 */
+function span(r){
+  var a = pd(r.from);
+  if (r.until) return '~ ' + f1(a) + ' 이내';
+  if (!r.to)   return f1(a);
+
+  var b = pd(r.to), tail;
+  if (a.getFullYear() !== b.getFullYear())  tail = f1(b);
+  else if (a.getMonth() !== b.getMonth())   tail = p2(b.getMonth() + 1) + '.' + p2(b.getDate()) + '(' + DOW[b.getDay()] + ')';
+  else                                      tail = p2(b.getDate()) + '(' + DOW[b.getDay()] + ')';
+
+  return f1(a) + ' ~ ' + tail;
+}
+
+/** 지난 일정 / 진행중 / 앞으로 */
+function stat(r){
+  var t = today(), a = pd(r.from), b = r.to ? pd(r.to) : a;
+  if (t > b) return 'past';
+  if (t >= a && t <= b) return 'now';
+  return '';
+}
+
+/* ═══════════════ 상단 D-day ═══════════════ */
+(function(){
+  var keys = [];
+  CFG.SCHEDULE.forEach(function(g){
+    g.rows.forEach(function(r){
+      if (r.key) keys.push({ label: g.g + ' ' + r.n, r: r });
+    });
+  });
+  keys.sort(function(x, y){ return pd(x.r.from) - pd(y.r.from); });
+
+  var t    = today();
+  var live = keys.filter(function(k){ return stat(k.r) === 'now'; });
+  var soon = keys.filter(function(k){ return pd(k.r.from) > t; });
+  var show = live.concat(soon).slice(0, 2);
+
+  var box = document.getElementById('dday');
+
+  if (!show.length) {
+    box.innerHTML = '<div class="card row"><div class="badge tbd">안내</div><div>' +
+      '<div class="t">원서접수 일정이 모두 지났습니다</div>' +
+      '<div class="d">아래 표에서 남은 일정을 확인하세요</div></div></div>';
+    return;
+  }
+
+  box.innerHTML = show.map(function(k){
+    var s = stat(k.r), badge;
+
+    if (s === 'now') {
+      badge = '<div class="badge on">접수중</div>';
+    } else {
+      var d = Math.round((pd(k.r.from) - t) / 864e5);
+      badge = '<div class="badge">D-' + d + '</div>';
+    }
+
+    return '<div class="card row">' + badge +
+      '<div><div class="t">' + esc(k.label) + '</div>' +
+      '<div class="d">' + esc(span(k.r)) + '</div></div></div>';
+  }).join('');
+})();
+
+/* ═══════════════ 전형일정 (달력 + 표) ═══════════════ */
+
+/** 모든 그룹의 일정을 하나로 펼칩니다 (탭 없이 전체를 봅니다) */
+function allEvents(){
+  var out = [];
+  CFG.SCHEDULE.forEach(function(g){
+    g.rows.forEach(function(r){
+      out.push({ n:r.n, from:r.from, to:r.to, until:r.until, key:r.key,
+                 h:g.g, cat:g.cat || '일반' });
+    });
+  });
+  return out;
+}
+
+/** 일정 종류별 색 — 구글 4색 */
+function kindColor(n){
+  if (n.indexOf('접수') >= 0) return '#4285F4';   // 파랑
+  if (n.indexOf('발표') >= 0) return '#34A853';   // 초록
+  if (n.indexOf('전형') >= 0 || n.indexOf('평가') >= 0 ||
+      n.indexOf('면담') >= 0 || n.indexOf('면접') >= 0) return '#FBBC04';   // 노랑
+  return '#EA4335';                               // 빨강 (공고·등록 등)
+}
+
+/** 학교 묶음별 색 — 파랑(일반) · 초록(특성화) · 빨강(특목) */
+function catColor(c){
+  if (c === '특성화') return '#188038';
+  if (c === '특목')   return '#c5221f';
+  return '#1a73e8';
+}
+
+/** 막대에 넣을 짧은 이름 — '원서 접수' → '원서접수' */
+function shortName(n){
+  if (n.indexOf('요강') >= 0)   return '요강공고';
+  if (n.indexOf('접수') >= 0)   return '원서접수';
+  if (n.indexOf('서류평가') >= 0) return '서류평가';
+  if (n.indexOf('면담') >= 0)   return '면담';
+  if (n.indexOf('면접') >= 0)   return '면접';
+  if (n.indexOf('전형') >= 0)   return '전형';
+  if (n.indexOf('등록') >= 0)   return n.indexOf('추가') >= 0 ? '추가등록' : '등록';
+  if (n.indexOf('발표') >= 0) {
+    if (n.indexOf('예정자') >= 0)   return '예비발표';
+    if (n.indexOf('배정 학교') >= 0) return '학교발표';
+    if (n.indexOf('추가') >= 0)     return '추가발표';
+    if (n.indexOf('대상자') >= 0)   return '대상자발표';
+    return '합격발표';
+  }
+  return n;
+}
+
+/** 그룹 이름을 짧게 — '특성화고 · 특별전형' → '특별' */
+function shortHead(h){
+  if (!h) return '';
+  var m = h.match(/\(([^)]+)\)/);
+  if (m) return m[1];
+  var p = h.split('·');
+  return p[p.length - 1].trim().replace(/고$/, '').replace(/전형$/, '');
+}
+
+/** 일정이 무슨 뜻인지 쉬운 말로 */
+function explain(n){
+  if (n.indexOf('요강') >= 0)     return '어느 학교가 몇 명을 뽑는지 발표돼요.';
+  if (n.indexOf('접수') >= 0)     return '이 기간 안에 원서를 넣어야 해요. 놓치면 지원할 수 없어요.';
+  if (n.indexOf('서류평가') >= 0) return '학교에 낸 서류로 평가하는 기간이에요. 따로 갈 일은 없어요.';
+  if (n.indexOf('면담') >= 0)     return '학교에 가서 선생님과 면담을 해요.';
+  if (n.indexOf('면접') >= 0)     return '학교에 모여 면접을 봐요.';
+  if (n.indexOf('전형') >= 0)     return '서류·면접·실기 같은 전형이 진행되는 기간이에요.';
+  if (n.indexOf('등록') >= 0)     return '합격했다면 이 기간에 등록해야 자리가 확정돼요.';
+  if (n.indexOf('배정 예정자') >= 0) return '어느 학교에 갈지 미리 알려주는 날이에요.';
+  if (n.indexOf('배정 학교') >= 0)   return '최종적으로 배정된 학교가 나오는 날이에요.';
+  if (n.indexOf('대상자') >= 0)   return '다음 단계로 갈 사람을 발표하는 날이에요.';
+  if (n.indexOf('발표') >= 0)     return '결과가 나오는 날이에요.';
+  return '';
+}
+
+function renderSched(){
+  var isCal = (sView === 'cal');
+
+  document.getElementById('vsel').innerHTML =
+    '<div class="tab' + (isCal  ? ' on' : '') + '" data-v="cal">📅 달력으로 보기</div>' +
+    '<div class="tab' + (!isCal ? ' on' : '') + '" data-v="table">1️⃣ 학교 종류별로 보기</div>';
+
+  document.getElementById('cal').style.display    = isCal ? '' : 'none';
+  document.getElementById('stable').style.display = isCal ? 'none' : '';
+
+  if (isCal) renderCal(); else renderTable();
+
+  document.getElementById('snote').innerHTML = esc(CFG.SCHEDULE_SOURCE ||
+    ('출처: 경기도교육청 고입 포털 · ' + CFG.SCHEDULE_UPDATED + ' 확인.'));
+}
+
+/* ── 학교 종류별로 보기 = 그룹마다 접었다 펼 수 있는 단계 안내 ── */
+function renderTable(){
+  var t = today();
+
+  // 전형이 다 끝난 학교는 숨기고, 남은 것만 보여줍니다.
+  var live = '', done = '', nDone = 0;
+
+  CFG.SCHEDULE.forEach(function(g){
+    var rows  = g.rows;
+    var left  = rows.filter(function(r){ return stat(r) !== 'past'; });
+    var isNow = rows.some(function(r){ return stat(r) === 'now'; });
+
+    var next = rows.filter(function(r){ return stat(r) === ''; })
+                   .sort(function(x, y){ return pd(x.from) - pd(y.from); })[0];
+
+    var tag;
+    if (isNow)     tag = '<span class="now">진행중</span>';
+    else if (next) tag = '<span class="cnt">D-' + Math.round((pd(next.from) - t) / 864e5) + '</span>';
+    else           tag = '<span class="cnt zero">끝남</span>';
+
+    var steps = rows.map(function(r, i){
+      var s   = stat(r);
+      var cls = 'step' + (s ? ' ' + s : '') + (r.key ? ' key' : '');
+
+      var badge;
+      if (s === 'now')       badge = '<span class="live">진행중</span>';
+      else if (s === 'past') badge = '<span class="done">지남</span>';
+      else                   badge = '<span class="dd">D-' + Math.round((pd(r.from) - t) / 864e5) + '</span>';
+
+      var ex = explain(r.n);
+
+      return '<div class="' + cls + '">' +
+        '<div class="num">' + (i + 1) + '</div>' +
+        '<div class="bd">' +
+          '<div class="t">' + esc(r.n) + badge + '</div>' +
+          '<div class="w">' + esc(span(r)) + '</div>' +
+          (ex ? '<div class="ex">' + esc(ex) + '</div>' : '') +
+        '</div></div>';
+    }).join('');
+
+    var card = '<details class="card gcard" data-g="' + esc(g.g) + '"' +
+      (left.length ? ' open' : '') +
+      ' style="--gc:' + catColor(g.cat) + '">' +
+      '<summary><span class="cv">▸</span><span class="gdot"></span>' +
+      '<span class="gn">' + esc(g.g) + '</span>' + tag + '</summary>' +
+      '<div class="steps">' +
+        (g.tip ? '<div class="gtip">' + esc(g.tip) + '</div>' : '') +
+        steps +
+      '</div></details>';
+
+    if (left.length) live += card;
+    else            { done += card; nDone++; }
+  });
+
+  var html = live || '<div class="card fnone"><b>남은 전형이 없습니다</b>' +
+    '올해 고입 일정이 모두 끝났어요.</div>';
+
+  if (nDone){
+    html += '<details class="pastwrap"><summary><span class="cv">▸</span>' +
+            '끝난 전형 ' + nDone + '개 보기</summary>' + done + '</details>';
+  }
+
+  document.getElementById('stable').innerHTML = html;
+}
+
+/* ── 달력 보기 = 8월부터 쭉, 달마다 접었다 펼 수 있게 ── */
+function renderCal(){
+  var evs = allEvents(), t = today();
+
+  var min = null, max = null;
+  evs.forEach(function(r){
+    var a = pd(r.from), b = r.to ? pd(r.to) : a;
+    if (!min || a < min) min = a;
+    if (!max || b > max) max = b;
+  });
+
+  var y  = min.getFullYear(), m  = min.getMonth();
+  var ey = max.getFullYear(), em = max.getMonth();
+  var curIdx = t.getFullYear() * 12 + t.getMonth();
+
+  // 이미 끝난 달은 숨기고, 앞으로 남은 달만 보여줍니다.
+  var past = '', rest = '', nPast = 0;
+
+  while (y < ey || (y === ey && m <= em)){
+    var idx  = y * 12 + m;
+    var last = new Date(y, m + 1, 0);                 // 그 달의 마지막 날
+    var card = monthCard(y, m, evs, t, idx === curIdx || idx === curIdx + 1);
+
+    if (last < t) { past += card; nPast++; }          // 달이 통째로 지났음
+    else            rest += card;
+
+    m++; if (m > 11){ m = 0; y++; }
+  }
+
+  var html = '<div class="calhint">앞으로 남은 <b>모든 학교 일정</b>이 한 번에 나옵니다. ' +
+    '달 이름을 누르면 접었다 펼 수 있어요.</div>';
+
+  // 지난 달은 접어서 맨 위에 (필요하면 펼쳐볼 수 있게)
+  if (nPast){
+    html += '<details class="pastwrap"><summary><span class="cv">▸</span>' +
+            '지난 달 ' + nPast + '개 보기</summary>' + past + '</details>';
+  }
+
+  html += rest || '<div class="card fnone"><b>남은 일정이 없습니다</b>' +
+    '올해 고입 일정이 모두 끝났어요. 위 &lsquo;지난 달 보기&rsquo;에서 확인할 수 있습니다.</div>';
+
+  html += '<div class="legend">' +
+    '<span><i style="background:#4285F4"></i>원서 접수</span>' +
+    '<span><i style="background:#FBBC04"></i>전형 · 면접</span>' +
+    '<span><i style="background:#34A853"></i>발표</span>' +
+    '<span><i style="background:#EA4335"></i>그 밖의 일정</span></div>';
+
+  document.getElementById('cal').innerHTML = html;
+}
+
+/** 달 하나를 카드로 그립니다 */
+function monthCard(y, m, evs, t, open){
+  var mA = new Date(y, m, 1), mB = new Date(y, m + 1, 0);
+
+  var inMonth = evs.filter(function(r){
+    var a = pd(r.from), b = r.to ? pd(r.to) : a;
+    return b >= mA && a <= mB;
+  });
+
+  var isCur = (t >= mA && t <= mB);
+
+  var head = '<summary><span class="cv">▸</span>' +
+    '<span class="gn">' + y + '년 ' + (m + 1) + '월</span>' +
+    (isCur ? '<span class="now">이번 달</span>' : '') +
+    '<span class="cnt' + (inMonth.length ? '' : ' zero') + '">' +
+    (inMonth.length ? inMonth.length + '건' : '일정 없음') + '</span></summary>';
+
+  if (!inMonth.length) return '<details class="card mo">' + head + '</details>';
+
+  var firstDow = mA.getDay();
+  var days     = mB.getDate();
+  var weeks    = Math.ceil((firstDow + days) / 7);
+
+  var body = '<div class="cal"><div class="dowrow">' + DOW.map(function(w, i){
+    return '<span class="' + (i === 0 ? 'sun' : i === 6 ? 'sat' : '') + '">' + w + '</span>';
+  }).join('') + '</div>';
+
+  for (var w = 0; w < weeks; w++){
+    var base = w * 7 - firstDow + 1;
+    var wA   = new Date(y, m, base);
+    var wB   = new Date(y, m, base + 6);
+
+    var nums = '';
+    for (var c = 0; c < 7; c++){
+      var dn = base + c;
+      if (dn < 1 || dn > days){ nums += '<span class="pad">0</span>'; continue; }
+      var dt = new Date(y, m, dn);
+      nums += '<span class="' + (c === 0 ? 'sun' : '') + '">' +
+              (dt.getTime() === t.getTime() ? '<b>' + dn + '</b>' : dn) + '</span>';
+    }
+
+    // 이 주에 걸치는 일정 — 달 밖으로는 잘라서 그립니다
+    var hit = inMonth.map(function(r){
+      var oa = pd(r.from), ob = r.to ? pd(r.to) : oa;
+      return { r:r, oa:oa, ob:ob, ca:(oa < mA ? mA : oa), cb:(ob > mB ? mB : ob) };
+    }).filter(function(x){
+      return x.cb >= wA && x.ca <= wB;
+    }).sort(function(x, z){
+      if (x.ca - z.ca) return x.ca - z.ca;
+      return (z.cb - z.ca) - (x.cb - x.ca);     // 긴 일정을 위쪽 줄에
+    });
+
+    var lanes = [], bars = '';
+
+    hit.forEach(function(x){
+      var sc = Math.max(0, Math.round((x.ca - wA) / 864e5));
+      var ec = Math.min(6, Math.round((x.cb - wA) / 864e5));
+
+      var li = 0;
+      while ((lanes[li] || []).some(function(o){ return sc <= o[1] && ec >= o[0]; })) li++;
+      (lanes[li] = lanes[li] || []).push([sc, ec]);
+
+      var isS = x.ca >= wA && x.oa.getTime() === x.ca.getTime();
+      var isE = x.cb <= wB && x.ob.getTime() === x.cb.getTime();
+      var lab = (shortHead(x.r.h) ? shortHead(x.r.h) + ' ' : '') + shortName(x.r.n);
+
+      bars += '<div class="bar' + (isS ? ' s' : ' cont') + (isE ? ' e' : '') +
+        (stat(x.r) === 'past' ? ' past' : '') + '"' +
+        ' style="left:' + (sc / 7 * 100).toFixed(3) + '%;' +
+        'width:' + ((ec - sc + 1) / 7 * 100).toFixed(3) + '%;' +
+        'top:' + (li * 20) + 'px;background:' + kindColor(x.r.n) + '"' +
+        ' title="' + esc(x.r.h + ' · ' + x.r.n + ' — ' + span(x.r)) + '">' +
+        (isS ? '' : '‹ ') + esc(lab) + '</div>';
+    });
+
+    body += '<div class="wk"><div class="dnums">' + nums + '</div>' +
+            '<div class="bars" style="height:' + Math.max(lanes.length * 20, 4) + 'px">' +
+            bars + '</div></div>';
+  }
+
+  // 이 달에 있는 일정을 글로도 한 번 더
+  body += '<div class="mlist">' + inMonth.slice().sort(function(p, q){
+    return pd(p.from) - pd(q.from);
+  }).map(function(r){
+    var s = stat(r);
+    return '<div class="ev' + (s === 'past' ? ' past' : '') + '">' +
+      '<span class="dot" style="background:' + kindColor(r.n) + '"></span>' +
+      '<div><div class="n">' + esc(r.h + ' · ' + r.n) +
+      (s === 'now' ? '<span class="live">진행중</span>' : '') + '</div>' +
+      '<div class="w">' + esc(span(r)) + '</div></div></div>';
+  }).join('') + '</div></div>';
+
+  return '<details class="card mo"' + (open ? ' open' : '') + '>' + head + body + '</details>';
+}
+
+document.getElementById('vsel').addEventListener('click', function(e){
+  var t = e.target.closest('.tab');
+  if (!t) return;
+  sView = t.getAttribute('data-v');
+  renderSched();
+});
+
+renderSched();
+
+/* ═══════════════ 응원 멘트 (날짜마다 바뀜) ═══════════════ */
+var QUOTES = [
+  '지금 흔들리는 건, 뿌리가 깊어지고 있다는 뜻이야.',
+  '정해진 정답은 없어. 네가 걸어가면 그게 길이 돼.',
+  '조급한 마음은 잠깐 접어두고, 오늘 할 수 있는 하나만 하자.',
+  '어떤 학교를 가느냐보다, 거기서 어떤 사람이 되느냐가 더 중요해.',
+  '모르는 건 부끄러운 게 아니야. 묻지 않는 게 손해일 뿐.',
+  '비교는 어제의 너하고만. 그거면 충분해.',
+  '고민이 길어진다는 건 그만큼 진지하다는 뜻이야. 잘하고 있어.',
+  '오늘의 선택이 마음에 걸리면, 내일 다시 이야기해도 괜찮아.',
+  '완벽한 결정보다 함께 내리는 결정이 더 든든해. 혼자 끙끙 앓지 말자.',
+  '지금 준비하는 이 시간은, 결과와 상관없이 온전히 네 것으로 남아.',
+  '천천히 가도 괜찮아. 멈추지만 않으면 돼.',
+  '너의 가능성은 성적표 한 장보다 훨씬 넓어.'
+];
+document.getElementById('quote').textContent =
+  QUOTES[Math.floor(Date.now() / 864e5) % QUOTES.length];
+
+/* ═══════════════ 자주 묻는 질문 ═══════════════
+ * 배포 전에 한 번 읽어보고 올해 기준에 맞게 고쳐 주세요.
+ */
+var FAQ = [
+  ['고등학교에는 어떤 종류가 있나요?',
+   '크게 일반고, 특수목적고(과학고·외국어고·국제고·예술고·체육고), 특성화고(마이스터고 포함), 자율고로 나뉩니다. 유형마다 모집 시기와 전형 방법이 달라서, 관심 있는 유형의 일정표와 공문을 먼저 확인해 주세요.'],
+  ['원서는 어디에서 쓰나요?',
+   '경기도교육청 고입 포털(satp.goe.go.kr)에서 온라인으로 작성합니다. 접수 방법과 기간은 해마다 조금씩 달라지니, 반드시 그 해 공문과 학교 안내를 기준으로 확인해 주세요.'],
+  ['내신 성적은 어떻게 반영되나요?',
+   '학년별 반영 비율과 산출 방식이 전형마다 다릅니다. 고입 포털의 내신성적 산출 시뮬레이션으로 대략 계산해 볼 수 있고, 정확한 산출은 학교에서 확인해 드립니다.'],
+  ['특성화고에 떨어지면 일반고에 갈 수 있나요?',
+   '특성화고·마이스터고는 일반고보다 먼저 모집(전기)하고, 불합격하더라도 이후 일반고에 지원할 기회가 있습니다. 다만 전형별로 지원 제한이 있을 수 있으니 원서 쓰기 전에 꼭 상담받으세요.'],
+  ['원서를 낸 뒤에 바꿀 수 있나요?',
+   '접수 기간 안에는 학교를 통해 정정이나 취소가 가능한 경우가 많지만, 마감된 뒤에는 어렵습니다. 고민되는 부분이 있으면 마감일 전에 미리 이야기해 주세요.'],
+  ['진로가 아직 정해지지 않았어요.',
+   '지금 시기에 아주 흔한 일이고, 전혀 늦지 않았습니다. 관심 가는 분야 한두 개만 들고 오면 함께 좁혀갈 수 있어요. 아래 오픈채팅으로 편하게 연락 주세요.']
+];
+document.getElementById('faq').innerHTML = FAQ.map(function(f){
+  return '<details class="card"><summary>' + esc(f[0]) + '</summary>' +
+         '<div class="a">' + esc(f[1]) + '</div></details>';
+}).join('');
+
+/* ═══════════════ 고등학교 찾기 ═══════════════ */
+(function(){
+  var box  = document.getElementById('fres');
+  var note = document.getElementById('fnote');
+  var cnt  = document.getElementById('fcnt');
+
+  // '지역|학교명|진학구분|설립별|남녀별' → 객체
+  var LIST = (SCH.list || []).map(function(s){
+    var a = s.split('|');
+    return { rg:a[0], nm:a[1], ty:a[2], fo:a[3], gd:a[4], nw:a[5] === 'N' };
+  });
+
+  cnt.textContent = LIST.length ? LIST.length + '개교' : '';
+  note.textContent = SCH.note || '';
+
+  /** 검색어 다듬기 — 띄어쓰기 없애고 '고등학교'는 '고'로 */
+  function norm(s){
+    return String(s || '').replace(/\s+/g, '')
+      .replace(/고등학교/g, '고').replace(/여자고/g, '여고').toLowerCase();
+  }
+
+  function typeInfo(ty){
+    return (SCH.types && SCH.types[ty]) ||
+      { g:'종합', label:ty, when:'', desc:'자세한 내용은 선생님께 확인해 주세요.', tab:null };
+  }
+
+  function card(s){
+    var t = typeInfo(s.ty);
+    var meta = [s.fo, s.gd === '공학' ? '남녀공학' : s.gd + '학교'];
+    if (s.nw) meta.push('2026학년도 신설');
+
+    return '<div class="card sch g-' + esc(t.g) + '">' +
+      '<div class="top"><span class="nm">' + esc(s.nm) + '</span>' +
+      '<span class="rg">' + esc(s.rg) + '</span></div>' +
+      '<span class="ty">' + esc(t.label) + '</span>' +
+      (t.when ? '<span class="wh">' + esc(t.when) + ' 모집</span>' : '') +
+      '<div class="ds">' + esc(t.desc) + '</div>' +
+      '<div class="mt">' + esc(meta.join(' · ')) + '</div>' +
+      (t.grp
+        ? '<button class="jump" data-grp="' + esc(t.grp) + '">📅 이 학교 전형일정 보기</button>'
+        : '') + '</div>';
+  }
+
+  function search(){
+    var q = norm(document.getElementById('fq').value);
+
+    if (!q) {
+      box.innerHTML = '';
+      return;
+    }
+
+    // 이름 일치 우선, 그다음 지역 일치
+    var byName = LIST.filter(function(s){ return norm(s.nm).indexOf(q) >= 0; });
+    var byReg  = LIST.filter(function(s){
+      return norm(s.nm).indexOf(q) < 0 && norm(s.rg).indexOf(q) >= 0;
+    });
+
+    // 이름이 짧게 걸린 것(정확도 높은 것)부터
+    byName.sort(function(a, b){ return a.nm.length - b.nm.length; });
+
+    var hits = byName.concat(byReg);
+
+    if (!hits.length) {
+      box.innerHTML = '<div class="card fnone"><b>찾는 학교가 목록에 없어요</b>' +
+        '학교 이름의 일부만 넣어 다시 찾아보세요. (예: 경민)<br>' +
+        '경기도 밖의 학교나 목록에서 빠진 지역일 수도 있습니다.<br>' +
+        '정확한 유형은 선생님께 물어보는 게 가장 확실해요.' +
+        (CFG.OPENCHAT_URL
+          ? '<br><a class="go" href="' + esc(CFG.OPENCHAT_URL) +
+            '" target="_top">💬 선생님께 물어보기</a>'
+          : '') + '</div>';
+      return;
+    }
+
+    var show = hits.slice(0, 12);
+    box.innerHTML = show.map(card).join('') +
+      (hits.length > show.length
+        ? '<div class="card fmore">그 밖에 ' + (hits.length - show.length) +
+          '개교가 더 있어요. 학교 이름을 더 자세히 입력해 보세요.</div>'
+        : '');
+  }
+
+  document.getElementById('fq').addEventListener('input', search);
+
+  // 결과 카드의 '전형일정 보기' → 그 학교 종류의 일정을 펼치고 그리로 이동
+  box.addEventListener('click', function(e){
+    var b = e.target.closest('.jump');
+    if (!b) return;
+
+    var want = b.getAttribute('data-grp');
+    sView = 'table';
+    renderSched();
+
+    var target = null;
+    var cards  = document.querySelectorAll('#stable .gcard');
+    for (var i = 0; i < cards.length; i++){
+      var mine = cards[i].getAttribute('data-g') === want;
+      cards[i].open = mine;                       // 찾는 것만 펼치기
+      if (mine) target = cards[i];
+    }
+
+    (target || document.querySelector('.s-sched'))
+      .scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+})();
+
+/* ═══════════════ AI 도우미 (Google NotebookLM · 구글 4색) ═══════════════ */
+function spark(){
+  return '<svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">' +
+    '<defs><linearGradient id="g4" x1="0" y1="0" x2="1" y2="1">' +
+    '<stop offset="0" stop-color="#4285F4"/><stop offset=".38" stop-color="#EA4335"/>' +
+    '<stop offset=".66" stop-color="#FBBC04"/><stop offset="1" stop-color="#34A853"/>' +
+    '</linearGradient></defs>' +
+    '<path fill="url(#g4)" d="M12 1c.6 6.2 4.8 10.4 11 11-6.2.6-10.4 4.8-11 11-.6-6.2-4.8-10.4-11-11 6.2-.6 10.4-4.8 11-11z"/></svg>';
+}
+
+if (CFG.NOTEBOOK_URL) {
+  document.getElementById('aiSection').style.display = '';
+  document.getElementById('ai').innerHTML =
+    '<div class="aiwrap"><a class="ai" href="' + esc(CFG.NOTEBOOK_URL) + '" target="_top">' +
+    '<div class="bot">' + spark() + '</div>' +
+    '<div style="flex:1"><div class="t">' + esc(CFG.NOTEBOOK_LABEL || 'AI에게 물어보기') + '</div>' +
+    '<div class="d">' + esc(CFG.NOTEBOOK_DESC || '') + '</div>' +
+    '<div class="by">Google NotebookLM 기반</div></div>' +
+    '<svg class="go" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+    'stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg></a></div>';
+}
+
+/* ═══════════════ 유용한 사이트 ═══════════════ */
+document.getElementById('links').innerHTML = (CFG.LINKS || []).map(function(l, i){
+  return '<a class="card row" style="animation-delay:' + i * 60 + 'ms"' +
+    ' href="' + esc(l.url) + '" target="_top">' +
+    '<div style="flex:1"><div class="n">' + esc(l.name) + '</div>' +
+    '<div class="d">' + esc(l.desc || '') + '</div></div>' + chev() + '</a>';
+}).join('');
+
+/* ═══════════════ 하단 오픈채팅 버튼 ═══════════════ */
+document.getElementById('cta').innerHTML =
+  (CFG.CHAT_NOTE ? '<div class="hint">' + esc(CFG.CHAT_NOTE) + '</div>' : '') +
+  (CFG.OPENCHAT_URL
+    ? '<a class="btn" href="' + esc(CFG.OPENCHAT_URL) + '" target="_top">💬 ' +
+      esc(CFG.CHAT_LABEL || '선생님께 문의하기') + '</a>'
+    : '<div class="btn off">💬 문의 채팅방 준비 중입니다</div>');
+
+/* ═══════════════ 공문 목록 ═══════════════ */
+function render(){
+  var tabs = ['전체'].concat(DATA.cats || []);
+  document.getElementById('tabs').innerHTML = tabs.map(function(c){
+    return '<div class="tab' + (c === cat ? ' on' : '') + '" data-c="' + esc(c) + '">' + esc(c) + '</div>';
+  }).join('');
+
+  var box = document.getElementById('list');
+  var cnt = document.getElementById('dcount');
+
+  if (DATA.loading) {                       // 불러오는 중
+    cnt.textContent = '';
+    box.innerHTML = '<div class="card empty"><span class="em">⏳</span>' +
+      '<b>자료를 불러오고 있어요</b>잠시만 기다려 주세요.</div>';
+    return;
+  }
+
+  if (!DATA.ok) {
+    cnt.textContent = '';
+
+    // 선생님이 API 주소를 아직 안 넣은 경우
+    if (!CFG.API_URL) {
+      box.innerHTML = '<div class="card empty"><span class="em">⚙️</span>' +
+        '<b>자료 연결이 아직 안 되었습니다</b>' +
+        '선생님께: Code.gs 의 API_URL 을 채우세요.</div>';
+      return;
+    }
+
+    box.innerHTML = '<div class="card empty"><span class="em">⚠️</span>' +
+      '<b>자료를 불러오지 못했습니다</b>잠시 후 새로고침해 주세요.</div>';
+    return;
+  }
+
+  var items = (DATA.items || []).filter(function(d){
+    return (cat === '전체' || d.cat === cat) &&
+           (!kw || d.name.toLowerCase().indexOf(kw) >= 0);
+  });
+
+  cnt.textContent = (DATA.items || []).length ? '전체 ' + DATA.items.length + '건' : '';
+
+  if (!items.length) {
+    box.innerHTML = '<div class="card empty"><span class="em">' + (kw ? '🔍' : '📭') + '</span><b>' +
+      (kw ? '검색 결과가 없습니다' : '아직 올라온 자료가 없습니다') + '</b>' +
+      (kw ? '다른 이름으로 찾아보세요.' : '새 공문이 도착하면 이곳에 바로 올라옵니다.') + '</div>';
+    return;
+  }
+
+  // 한 번에 다 뿌리지 않고 몇 건씩 끊어서 보여줍니다 (기본 5건)
+  var now  = Date.now();
+  var view = items.slice(0, shown);
+
+  box.innerHTML = view.map(function(d, i){
+    var isNew = (now - d.ts) < CFG.NEW_DAYS * 864e5;
+    return '<a class="card doc" style="animation-delay:' + Math.min(i, 8) * 45 + 'ms"' +
+      ' href="' + esc(d.url) + '" target="_top">' +
+      '<div class="ico">' + esc(d.kind) + '</div>' +
+      '<div class="body"><div class="nm">' + esc(d.name) +
+        (isNew ? '<span class="new">NEW</span>' : '') + '</div>' +
+      '<div class="meta">' + esc(d.cat) + ' · ' + esc(d.date) +
+        (d.size ? ' · ' + esc(d.size) : '') + '</div></div>' +
+      chev() + '</a>';
+  }).join('');
+
+  // 아래쪽에 '더 보기' / '접기'
+  var rest = items.length - view.length;
+
+  if (rest > 0) {
+    box.innerHTML += '<button class="morebtn" id="moreDoc">' +
+      '자료 ' + rest + '건 더 보기' +
+      '<span class="of">' + view.length + ' / ' + items.length + '</span></button>';
+
+  } else if (items.length > DOC_STEP) {
+    box.innerHTML += '<button class="morebtn fold" id="foldDoc">접기' +
+      '<span class="of">전체 ' + items.length + '건</span></button>';
+  }
+}
+
+document.getElementById('tabs').addEventListener('click', function(e){
+  var t = e.target.closest('.tab');
+  if (!t) return;
+  cat = t.getAttribute('data-c');
+  shown = DOC_STEP;                 // 탭을 바꾸면 다시 5건부터
+  render();
+});
+
+document.getElementById('q').addEventListener('input', function(e){
+  kw = e.target.value.trim().toLowerCase();
+  shown = DOC_STEP;                 // 검색하면 다시 5건부터
+  render();
+});
+
+/* '더 보기' / '접기' */
+document.getElementById('list').addEventListener('click', function(e){
+  if (e.target.closest('#moreDoc')) {
+    shown += DOC_STEP;
+    render();
+    return;
+  }
+
+  if (e.target.closest('#foldDoc')) {
+    shown = DOC_STEP;
+    render();
+    // 접은 뒤 목록 맨 위가 보이도록
+    document.querySelector('.s-docs').scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+});
+
+document.getElementById('rf').addEventListener('click', function(){
+  var b = this;
+  b.textContent = '불러오는 중...';
+  loadDocs(function(ok){
+    b.textContent = ok ? '목록 새로고침' : '실패 — 다시 시도';
+  });
+});
+
+/* ═══════════════ 유틸 ═══════════════ */
+function chev(){
+  return '<svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" ' +
+    'stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg>';
+}
+
+function esc(s){
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+
+render();
+
+/* ═══════════════ 공문 목록 불러오기 (JSONP) ═══════════════
+ *
+ *  화면은 GitHub Pages 가 즉시 띄우고, 목록만 Apps Script 에서 받아옵니다.
+ *  <script> 태그로 부르는 JSONP 방식이라 브라우저 보안(CORS)에 막히지 않습니다.
+ *
+ *  API_URL 이 비어 있거나 실패해도 나머지 화면은 정상 동작합니다.
+ */
+var API_SEQ = 0;
+
+function loadDocs(done){
+  if (!CFG.API_URL) {                       // 주소가 아직 안 채워진 경우
+    DATA = { ok:false, items:[], cats:[], error:'API_URL 없음' };
+    render();
+    if (done) done(false);
+    return;
+  }
+
+  var name = '__docs' + (++API_SEQ);
+  var tag  = document.createElement('script');
+  var timer;
+
+  function cleanup(){
+    clearTimeout(timer);
+    try { delete window[name]; } catch (e) { window[name] = undefined; }
+    if (tag.parentNode) tag.parentNode.removeChild(tag);
+  }
+
+  window[name] = function(d){
+    cleanup();
+    DATA = d || { ok:false, items:[], cats:[] };
+    DATA.loading = false;
+    shown = DOC_STEP;
+    render();
+    if (done) done(true);
+  };
+
+  tag.onerror = function(){
+    cleanup();
+    DATA = { ok:false, items:[], cats:[], error:'불러오기 실패' };
+    render();
+    if (done) done(false);
+  };
+
+  timer = setTimeout(tag.onerror, 15000);   // 15초 넘으면 실패로 처리
+
+  tag.src = CFG.API_URL +
+    (CFG.API_URL.indexOf('?') >= 0 ? '&' : '?') +
+    'callback=' + name + '&t=' + Date.now();
+
+  document.body.appendChild(tag);
+}
+
+loadDocs();
+
+/* ═══════════════ 맨 위 4색 진행바 ═══════════════
+ * 배경색은 흰색 그대로 두고, 스크롤한 만큼 구글 4색 띠가 차오릅니다.
+ * (섹션마다 위쪽에서 색이 번지는 효과는 CSS 로만 처리합니다)
+ */
+(function(){
+  var bar = document.getElementById('progbar');
+  if (!bar) return;
+
+  var ticking = false;
+
+  function draw(){
+    ticking = false;
+
+    var doc = document.documentElement;
+    var max = (doc.scrollHeight - window.innerHeight);
+    var p   = max > 0 ? (window.pageYOffset || doc.scrollTop) / max : 0;
+
+    if (p < 0) p = 0;
+    if (p > 1) p = 1;
+
+    bar.style.width = (p * 100).toFixed(2) + '%';
+  }
+
+  function onScroll(){
+    if (ticking) return;
+    ticking = true;
+    (window.requestAnimationFrame || function(f){ setTimeout(f, 16); })(draw);
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+
+  // 목록을 펼치거나 접으면 문서 길이가 바뀌므로 다시 계산합니다
+  document.addEventListener('click', function(){ setTimeout(onScroll, 60); });
+  document.addEventListener('toggle', onScroll, true);
+
+  draw();
+})();
+</script>
+</body>
+</html>
