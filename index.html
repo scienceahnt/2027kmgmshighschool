@@ -1215,13 +1215,13 @@ var SCH  = { list: [
                      grp:'일반고' },
   '일반(자사)':    { g:'특목',   label:'자율형 사립고',     when:'후기',
                      desc:'일반고와 같은 시기(12월)에 1·2단계로 뽑습니다. 학비가 일반고보다 비쌉니다.',
-                     grp:'외고 · 국제고 · 자사고 (1단계)' },
+                     grp:['외고 · 국제고 · 자사고 (1단계)', '외고 · 국제고 · 자사고 (2단계)'] },
   '특성화':        { g:'특성화', label:'특성화고',          when:'전기',
-                     desc:'직업·전문 분야를 배웁니다. 일반고보다 먼저(11월) 원서를 씁니다.',
-                     grp:'특성화고 · 일반전형' },
+                     desc:'직업·전문 분야를 배웁니다. 일반고보다 먼저(11월) 원서를 쓰며, 특별전형이 먼저 · 일반전형이 나중입니다.',
+                     grp:['특성화고 · 특별전형', '특성화고 · 일반전형'] },
   '특성화(대안)':  { g:'특성화', label:'대안 특성화고',     when:'전기',
                      desc:'학교마다 교육과정과 전형 일정이 많이 다릅니다. 꼭 학교에 직접 확인하세요.',
-                     grp:'특성화고 · 일반전형' },
+                     grp:['특성화고 · 특별전형', '특성화고 · 일반전형'] },
   '특목(마이스터)':{ g:'특목',   label:'마이스터고',        when:'전기',
                      desc:'산업 분야 전문가를 기르는 학교입니다. 특성화고보다도 먼저(10월) 원서를 씁니다.',
                      grp:'마이스터고' },
@@ -1230,10 +1230,10 @@ var SCH  = { list: [
                      grp:'과학고 (경기북과학고)' },
   '특목(외고)':    { g:'특목',   label:'외국어고',          when:'후기',
                      desc:'외국어 중점 학교입니다. 12월에 1·2단계로 뽑습니다.',
-                     grp:'외고 · 국제고 · 자사고 (1단계)' },
+                     grp:['외고 · 국제고 · 자사고 (1단계)', '외고 · 국제고 · 자사고 (2단계)'] },
   '특목(국제)':    { g:'특목',   label:'국제고',            when:'후기',
                      desc:'국제 계열 중점 학교입니다. 12월에 1·2단계로 뽑습니다.',
-                     grp:'외고 · 국제고 · 자사고 (1단계)' },
+                     grp:['외고 · 국제고 · 자사고 (1단계)', '외고 · 국제고 · 자사고 (2단계)'] },
   '특목(예술)':    { g:'특목',   label:'예술고',            when:'전기',
                      desc:'실기 시험이 있습니다. 10월에 원서를 씁니다.',
                      grp:'예술고' },
@@ -1752,7 +1752,7 @@ document.getElementById('faq').innerHTML = FAQ.map(function(f){
       '<div class="ds">' + esc(t.desc) + '</div>' +
       '<div class="mt">' + esc(meta.join(' · ')) + '</div>' +
       (t.grp
-        ? '<button class="jump" data-grp="' + esc(t.grp) + '">📅 이 학교 전형일정 보기</button>'
+        ? '<button class="jump" data-grp="' + esc([].concat(t.grp).join('|')) + '">📅 이 학교 전형일정 보기</button>'
         : '') + '</div>';
   }
 
@@ -1802,16 +1802,19 @@ document.getElementById('faq').innerHTML = FAQ.map(function(f){
     var b = e.target.closest('.jump');
     if (!b) return;
 
-    var want = b.getAttribute('data-grp');
+    // 전형이 여러 개인 학교(예: 특성화고 = 특별전형 + 일반전형)는 '|' 로 이어져 옵니다.
+    // 어느 전형으로 지원하든 마감일을 놓치지 않도록 관련 전형을 모두 펼칩니다.
+    var want = b.getAttribute('data-grp').split('|');
     sView = 'table';
     renderSched();
 
     var target = null;
     var cards  = document.querySelectorAll('#stable .gcard');
     for (var i = 0; i < cards.length; i++){
-      var mine = cards[i].getAttribute('data-g') === want;
-      cards[i].open = mine;                       // 찾는 것만 펼치기
-      if (mine) target = cards[i];
+      var at   = want.indexOf(cards[i].getAttribute('data-g'));
+      var mine = at >= 0;
+      cards[i].open = mine;                       // 관련된 것만 펼치기
+      if (at === 0) target = cards[i];            // 스크롤은 첫 번째(가장 이른) 전형으로
     }
 
     (target || document.querySelector('.s-sched'))
